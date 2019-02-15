@@ -6,11 +6,12 @@ public class Shoot : MonoBehaviour
     public SteamVR_Behaviour_Pose pose;
     public SteamVR_Input_Sources hand;
     public SteamVR_Action_Single shoot;
-    
+    public SteamVR_Action_Vibration haptic;
 
     public Transform muzzle;
     public Transform head;
     public ObjectPooler bulletSpawner;
+    public Animator animator;
 
     private bool canShoot = true;
     private Vector3 destinationHit;
@@ -26,6 +27,8 @@ public class Shoot : MonoBehaviour
         if(shoot.GetAxis(hand) >= 0.2 && canShoot)
         {
             SpawnBullet();
+            animator.SetTrigger("Shoot");
+            haptic.Execute(0f, .1f, 100f, 1f, hand);
             canShoot = false;
         }
     }

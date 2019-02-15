@@ -5,13 +5,10 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 2f;
-    public float curveSpeed = 2f;
-    
 
     private Rigidbody rb;
     private ObjectPooler bulletSpawner;
 
-    private bool shot = false;
     private bool collided = false;
 
     private void Awake()
@@ -20,27 +17,20 @@ public class Bullet : MonoBehaviour
         bulletSpawner = GetComponentInParent<ObjectPooler>();
     }
 
-    private void OnEnable()
-    {
-        if (!shot) { return; }
-
-        Invoke("SetInactive", 5f);
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if(!collided)
+        if (!collided)
+        {
             transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+        }
     }
 
     public void SetVelocity(Vector3 forward, Vector3 armVelocity, Vector3 armRotation, Vector3 destination)
     {
 
         rb.velocity = armVelocity;
-        rb.angularVelocity = armRotation;
         StartCoroutine(CurveBullet(destination));
-        shot = true;
     }
 
     IEnumerator CurveBullet(Vector3 destination)
@@ -49,9 +39,12 @@ public class Bullet : MonoBehaviour
         Vector3 initialVelocity = rb.velocity;
 
         float lerpValue = 0;
-        while(lerpValue < .9f && lerpValue >= 0f)
+        while(lerpValue < 1f && lerpValue >= 0f)
         {
-            rb.velocity = Vector3.Lerp(initialVelocity, (destination - transform.position) * speed, lerpValue);
+            Vector3 directionToChange = (destination - transform.position) * speed;
+            rb.velocity = Vector3.Lerp(initialVelocity, directionToChange, lerpValue);
+            if (rb.velocity.sqrMagnitude != speed * speed)
+                rb.velocity = rb.velocity.normalized * speed;
             lerpValue = 1 - Vector3.Distance(transform.position, destination) / initialDistance;
             yield return null;
         }
@@ -60,12 +53,10 @@ public class Bullet : MonoBehaviour
     public void SetVelocity(Vector3 forward)
     {
         rb.velocity = forward * speed;
-        shot = true;
     }
 
     void SetInactive()
     {
-        shot = false;
         rb.velocity = Vector3.zero;
         collided = false;
         rb.useGravity = false;
@@ -78,5 +69,6 @@ public class Bullet : MonoBehaviour
         collided = true;
         rb.useGravity = true;
         StopAllCoroutines();
+        Invoke("SetInactive", 5f);
     }
 }

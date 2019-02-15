@@ -24,10 +24,10 @@ public class PlayerMovement : MonoBehaviour
         var horizontalInput = move.GetAxis(hand).x;
         var forwardInput = move.GetAxis(hand).y;
 
-        Vector3 forwardMovement = head.forward * forwardInput * speed;
+        Vector3 forwardMovement = head.forward * forwardInput * speed * Time.deltaTime;
         forwardMovement.y = 0;
 
-        Vector3 horizontalMovement = head.right * horizontalInput * speed;
+        Vector3 horizontalMovement = head.right * horizontalInput * speed * Time.deltaTime;
         horizontalMovement.y = 0;
 
 
