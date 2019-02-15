@@ -33,11 +33,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean Grab
+        public virtual SteamVR_Action_Boolean GrabPinch
         {
             get
             {
-                return SteamVR_Actions.default_Grab;
+                return SteamVR_Actions.default_GrabPinch;
             }
         }
         
@@ -78,6 +78,30 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.default_HeadsetOnHead;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean GrabGrip
+        {
+            get
+            {
+                return SteamVR_Actions.default_GrabGrip;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean Run
+        {
+            get
+            {
+                return SteamVR_Actions.default_Run;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 Move
+        {
+            get
+            {
+                return SteamVR_Actions.default_Move;
             }
         }
         

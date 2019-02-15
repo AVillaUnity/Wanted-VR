@@ -9,7 +9,7 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/Grab",
+      "name": "/actions/default/in/GrabPinch",
       "type": "boolean"
     },
     {
@@ -35,6 +35,18 @@
       "name": "/actions/default/in/HeadsetOnHead",
       "type": "boolean",
       "requirement": "optional"
+    },
+    {
+      "name": "/actions/default/in/GrabGrip",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/Run",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/Move",
+      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",

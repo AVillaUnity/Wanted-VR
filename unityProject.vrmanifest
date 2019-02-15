@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.wantedvr.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Mauricio Villa.DESKTOP-9TFAOT6\\Documents\\Unity\\Wanted VR\\Wanted-VR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "Wanted VR [Testing]"
+        }
+      }
+    }
+  ]
+}
