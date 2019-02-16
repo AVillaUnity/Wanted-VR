@@ -452,6 +452,7 @@ namespace Valve.VR
                         texture.Apply();
                     }
 
+                    if(shader == null) { shader = Shader.Find("Lightweight Render Pipeline/Lit"); }
                     material = new Material(shader);
                     material.mainTexture = texture;
                     //material.hideFlags = HideFlags.DontUnloadUnusedAsset;

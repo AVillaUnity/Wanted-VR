@@ -12,6 +12,7 @@ public class Shoot : MonoBehaviour
     public Transform head;
     public ObjectPooler bulletSpawner;
     public Animator animator;
+    public LayerMask layerMask;
 
     private bool canShoot = true;
     private Vector3 destinationHit;
@@ -51,16 +52,23 @@ public class Shoot : MonoBehaviour
         }
         else
         {
-            if (Physics.Raycast(head.position, head.forward, out RaycastHit hit, 100))
+            
+            foreach(Transform t in head.gameObject.GetComponentsInChildren<Transform>())
             {
-                bullet.GetComponent<Bullet>().SetVelocity(muzzle.forward, pose.GetVelocity(), pose.GetAngularVelocity(), hit.point);
-                destinationHit = hit.point;
+                if (Physics.Raycast(t.position, t.forward, out RaycastHit targetHit, 500f, layerMask))
+                {
+                    // hit target collider
+                    bullet.GetComponent<Bullet>().SetVelocity(muzzle.forward, pose.GetVelocity(), pose.GetAngularVelocity(), targetHit.point);
+                    destinationHit = targetHit.point;
+                    print("hitting target from " + t.name);
+                    return;
+                }
             }
-            else
-            {
-                bullet.GetComponent<Bullet>().SetVelocity(muzzle.forward, pose.GetVelocity(), pose.GetAngularVelocity(), head.forward * 100);
-                destinationHit = head.forward * 100;
-            }
+            
+            // no target hit
+            bullet.GetComponent<Bullet>().SetVelocity(muzzle.forward, pose.GetVelocity(), pose.GetAngularVelocity(), head.forward * 100);
+            destinationHit = head.forward * 100;
+            print("hitting nothing");
         }
     }
 }
