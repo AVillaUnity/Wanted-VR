@@ -5,15 +5,19 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 2f;
+    public AudioClip impactHit;
 
     private Rigidbody rb;
     private ObjectPooler bulletSpawner;
+    private AudioSource audioSource;
+    
 
     private bool collided = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         bulletSpawner = GetComponentInParent<ObjectPooler>();
     }
 
@@ -28,9 +32,9 @@ public class Bullet : MonoBehaviour
 
     public void SetVelocity(Vector3 forward, Vector3 armVelocity, Vector3 armRotation, Vector3 destination)
     {
-
         rb.velocity = armVelocity;
         StartCoroutine(CurveBullet(destination));
+        audioSource.PlayDelayed(.2f);
     }
 
     IEnumerator CurveBullet(Vector3 destination)
@@ -53,6 +57,7 @@ public class Bullet : MonoBehaviour
     public void SetVelocity(Vector3 forward)
     {
         rb.velocity = forward * speed;
+        audioSource.PlayDelayed(.2f);
     }
 
     void SetInactive()
@@ -66,6 +71,10 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!collided) {
+            audioSource.Stop();
+            AudioSource.PlayClipAtPoint(impactHit, transform.position);
+        }
         collided = true;
         rb.useGravity = true;
         StopAllCoroutines();

@@ -13,6 +13,7 @@ public class Shoot : MonoBehaviour
     public ObjectPooler bulletSpawner;
     public Animator animator;
     public LayerMask layerMask;
+    public AudioClip shootSound;
 
     private bool canShoot = true;
     private Vector3 destinationHit;
@@ -29,6 +30,7 @@ public class Shoot : MonoBehaviour
         {
             SpawnBullet();
             animator.SetTrigger("Shoot");
+            AudioSource.PlayClipAtPoint(shootSound, muzzle.position);
             haptic.Execute(0f, .1f, 100f, 1f, hand);
             canShoot = false;
         }
